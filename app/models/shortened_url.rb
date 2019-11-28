@@ -26,4 +26,13 @@ class ShortenedUrl < ApplicationRecord
    def self.generate_short_url!(user, long_url)
       create!(:user_id => user.id, :long_url => long_url, :short_url => ShortenedUrl.random_code)
    end
+
+   def num_clicks
+      visits.count
+   end
+
+   def num_uniques
+      visits.select(:visitor_id).distinct.count
+   end
+
 end
