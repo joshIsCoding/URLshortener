@@ -16,7 +16,10 @@ class ShortenedUrl < ApplicationRecord
       primary_key: :id
    )
 
-   has_many :visitors, through: :visits, source: :visitor
+   has_many :visitors, 
+      -> { distinct },
+      through: :visits, 
+      source: :visitor
 
    def self.random_code
       new_code = SecureRandom.urlsafe_base64 until new_code && !self.exists?(short_url: new_code)
@@ -32,7 +35,7 @@ class ShortenedUrl < ApplicationRecord
    end
 
    def num_uniques
-      visits.select(:visitor_id).distinct.count
+      visitorss.count
    end
 
    def num_recent_uniques
