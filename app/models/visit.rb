@@ -1,5 +1,5 @@
 class Visit < ApplicationRecord
-   validates :visitor_id, :shortened_url_id, presence: true
+   # validates :visitor_id, :shortened_url_id, presence: true
 
    belongs_to(
       :visitor,

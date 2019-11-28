@@ -9,6 +9,15 @@ class ShortenedUrl < ApplicationRecord
       primary_key: :id
    )
 
+   has_many(
+      :visits,
+      class_name: 'Visit',
+      foreign_key: :shortened_url_id,
+      primary_key: :id
+   )
+
+   has_many :visitors, through: :visits, source: :visitor
+
    def self.random_code
       new_code = SecureRandom.urlsafe_base64 until new_code && !exists?(short_url: new_code)
       new_code
