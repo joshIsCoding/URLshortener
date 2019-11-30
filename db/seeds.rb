@@ -5,3 +5,5 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+tag_topics = TagTopic.create([{topic: 'news'}, {topic: 'music'}, {topic: 'sports'}, {topic: 'social media'}, {topic: 'coding'}])
