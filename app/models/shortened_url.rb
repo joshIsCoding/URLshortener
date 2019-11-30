@@ -57,7 +57,6 @@ class ShortenedUrl < ApplicationRecord
    private
    def no_spamming
       recently_created = ShortenedUrl.select(:id).where(["created_at >= ? AND user_id = ?", 1.minutes.ago, user_id]).count
-      debugger
       errors[:base] << "You can't create more than 5 links per minute" if recently_created >= 5
    end
 
