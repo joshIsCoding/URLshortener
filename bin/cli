@@ -17,19 +17,20 @@ class CLI
          puts "Enter the long URL:"
          short_obj = generate_short_url
          puts "\nThe short URL for #{short_obj.long_url} is as follows:\n#{short_obj.short_url}"
+         puts "\nHave a great day!"   
       when 2
          begin
             puts "\nEnter the short URL:"
-            short_obj = load_long_url
-            puts "\nLoading #{short_obj.long_url} ..."
+            short_url_obj = load_long_url
+            puts "\nLoading #{short_url_obj.long_url} ..."
+            Launchy.open( short_url_obj.long_url )
+            Visit.record_visit!(user, short_url_obj)
          rescue => e
             puts e.message
             puts "Re-enter the short URL? (y/n)"
             retry if get_input(:confirm) == "y"
          end
-      end
-
-      puts "\nHave a great day!"      
+      end   
    end
 
    private
