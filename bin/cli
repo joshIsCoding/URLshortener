@@ -6,6 +6,62 @@ class CLI
       @user = nil
    end
 
+   def run
+      welcome_prompt
+      initialize_user
+      
+      choice_prompt 
+      choice = get_input(:choice) # 1 - Create short url from long; 2 - load long url from short 
+      case choice
+      when 1
+         puts "Enter the long URL:"
+         short_obj = generate_short_url
+         puts "\nThe short URL for #{short_obj.long_url} is as follows:\n#{short_obj.short_url}"
+      when 2
+         begin
+            puts "\nEnter the short URL:"
+            short_obj = load_long_url
+            puts "\nLoading #{short_obj.long_url} ..."
+         rescue => e
+            puts e.message
+            puts "Re-enter the short URL? (y/n)"
+            retry if get_input(:confirm) == "y"
+         end
+      end
+
+      puts "\nHave a great day!"      
+   end
+
+   # ~~~ Input & Validation Functions ~~~
+
+   def get_input(input_type)
+      begin
+         input = gets.chomp
+         case input_type
+         when :email
+            validate_email(input)
+         when :choice
+            input = input.to_i
+            validate_choice(input)
+         when :confirm
+            input = input.downcase
+            validate_confirm(input)
+         when :long_url
+            validate_long_url(input)
+         when :short_url
+            validate_short_url(input)
+         else
+            raise RuntimeError("Invalid input type")
+         end
+      rescue ArgumentError => ae
+         puts ae.message
+         retry
+      end
+      input
+   end
+
+ 
+
    
 end
 
