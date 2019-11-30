@@ -32,6 +32,8 @@ class CLI
       puts "\nHave a great day!"      
    end
 
+   private
+
    # ~~~ Input & Validation Functions ~~~
 
    def get_input(input_type)
@@ -133,4 +135,6 @@ class CLI
    end 
    
 end
+
+CLI.new.run
 
