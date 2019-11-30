@@ -28,6 +28,11 @@ class ShortenedUrl < ApplicationRecord
       through: :visits, 
       source: :visitor
 
+   has_many :tagged_topics, 
+      -> { distinct },
+      through: :taggings, 
+      source: :tagged_topic
+
    def self.random_code
       new_code = SecureRandom.urlsafe_base64 until new_code && !self.exists?(short_url: new_code)
       new_code
