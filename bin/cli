@@ -80,7 +80,19 @@ class CLI
       raise ArgumentError, "Invalid short URL; \nshort URLs consist of 20 alphanumeric characters. \nPlease re-enter:" unless short_url.match?(/\w{20}/)
    end
 
-   
+   # ~~~~~~~ Display Functions ~~~~~~~~
+
+   def welcome_prompt
+      puts "______________________________________________________"
+      puts "_____________Command Line URL Shortener_______________"
+      puts 
+   end
+
+   def choice_prompt
+      puts "\nWhat would you like to do?"
+      puts "1 - Create a new short url"
+      puts "2 - Visit an existing short url"
+   end
 
    
 end
