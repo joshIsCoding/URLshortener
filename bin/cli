@@ -94,6 +94,29 @@ class CLI
       puts "2 - Visit an existing short url"
    end
 
+   # ~~~~~~~ Database Functions ~~~~~~~~
+
+   def initialize_user
+      begin
+      puts "Please enter your user account email:"            
+         user_email = get_input(:email)
+         load_user(user_email) 
+         puts "\nWelcome back!"     
+      rescue ArgumentError => e
+         puts e.message
+         puts "Create new user with email #{user_email}? (y/n)"
+         if get_input(:confirm) == "y"
+            self.user = User.create(email: user_email)
+         else
+            retry
+         end
+      end
+   end
+
+   def load_user(email)
+      self.user = User.find_by(email: email)
+      raise ArgumentError, "User not found" if self.user.nil? 
+   end
    
 end
 
