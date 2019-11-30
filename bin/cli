@@ -60,7 +60,27 @@ class CLI
       input
    end
 
- 
+   def validate_email(email)
+      raise ArgumentError, "Invalid email - please re-enter:" unless email.match?(/\S+@\S+(\.\S+){1,3}/)
+   end
+
+   def validate_choice(choice)
+      raise ArgumentError, "Invalid choice - please re-enter:" unless choice == 1 || choice == 2
+   end
+
+   def validate_confirm(choice)
+      raise ArgumentError, "Invalid choice - please re-enter:" unless choice == "y" || choice == "n"
+   end
+
+   def validate_long_url(long_url)
+      raise ArgumentError, "Invalid URL - please re-enter:" unless long_url.match?(/\S+(\.\S+){1,3}/)
+   end
+
+   def validate_short_url(short_url)
+      raise ArgumentError, "Invalid short URL; \nshort URLs consist of 20 alphanumeric characters. \nPlease re-enter:" unless short_url.match?(/\w{20}/)
+   end
+
+   
 
    
 end
