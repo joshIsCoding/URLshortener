@@ -16,6 +16,13 @@ class ShortenedUrl < ApplicationRecord
       primary_key: :id
    )
 
+   has_many(
+      :taggings,
+      class_name: 'Tagging',
+      foreign_key: :shortened_url_id,
+      primary_key: :id
+   )
+
    has_many :visitors, 
       -> { distinct },
       through: :visits, 
