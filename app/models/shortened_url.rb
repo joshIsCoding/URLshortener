@@ -35,7 +35,7 @@ class ShortenedUrl < ApplicationRecord
    end
 
    def num_uniques
-      visitorss.count
+      visitors.count
    end
 
    def num_recent_uniques
