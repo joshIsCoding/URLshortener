@@ -117,6 +117,20 @@ class CLI
       self.user = User.find_by(email: email)
       raise ArgumentError, "User not found" if self.user.nil? 
    end
+
+   def generate_short_url
+      long_url = get_input(:long_url)
+      short_url = ShortenedUrl.find_by(user_id: user.id, long_url: long_url)
+      short_url ||= ShortenedUrl.generate_short_url!(user, long_url)
+      short_url
+   end
+
+   def load_long_url
+      short_url = get_input(:short_url)
+      short_obj = ShortenedUrl.find_by(short_url: short_url, user_id: user.id)
+      raise "No such URL found." if short_obj.nil?
+      short_obj
+   end 
    
 end
 
