@@ -1,7 +1,7 @@
 class ShortenedUrl < ApplicationRecord
    validates :long_url, :user_id, presence: true
    validates :short_url, uniqueness: true
-   validate :no_spamming
+   validate :no_spamming, :nonpremium_max
    belongs_to(
       :submitter,
       class_name: 'User',
@@ -58,6 +58,13 @@ class ShortenedUrl < ApplicationRecord
    def no_spamming
       recently_created = ShortenedUrl.select(:id).where(["created_at >= ? AND user_id = ?", 1.minutes.ago, user_id]).count
       errors[:base] << "You can't create more than 5 links per minute" if recently_created >= 5
+   end
+
+   def nonpremium_max
+      unless submitter.premium
+         total_created = ShortenedUrl.where(["user_id = ?", user_id]).length
+         errors[:maximum] << "number of new links for non-premium users is 5" if total_created >= 5
+      end
    end
 
 end
