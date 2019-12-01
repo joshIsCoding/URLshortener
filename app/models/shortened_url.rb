@@ -54,6 +54,22 @@ class ShortenedUrl < ApplicationRecord
       visits.select(:visitor_id).where(["created_at > ?", 10.minutes.ago]).distinct.count
    end
 
+   def self.prune(n)
+      ShortenedUrl.joins(:submitter).left_outer_joins(:visits).where(
+            "shortened_urls.id NOT IN (
+            SELECT
+               shortened_urls.id
+            FROM
+               shortened_urls
+            LEFT OUTER JOIN
+               visits ON visits.shortened_url_id = shortened_urls.id
+            WHERE 
+               (visits.created_at >= \'#{n.minute.ago}\' 
+                  OR shortened_urls.created_at >= \'#{n.minute.ago}\') 
+                  OR users.premium = true)"
+      ).destroy_all
+   end
+
    private
    def no_spamming
       recently_created = ShortenedUrl.select(:id).where(["created_at >= ? AND user_id = ?", 1.minutes.ago, user_id]).count
